@@ -1,25 +1,30 @@
-import 'dart:io';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'craft_folio.dart';
-import 'logger/logger.dart'; // Import the new homepage widget
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'dart:html'; // Import the HTML package to access window object
 
 void main() async {
   // Ensure Flutter bindings are initialized before running any async code
   WidgetsFlutterBinding.ensureInitialized();
-  // Load the configuration before running the app
-  await dotenv.load(mergeWith: Platform.environment); // Load .env file
-  // Load Local the configuration before running the app
-  //await dotenv.load();
-  await Supabase.initialize(
-    url: dotenv.env['APIURL'] ?? 'No API Key',
-    // Access the updated URL
-    anonKey:
-        dotenv.env['ANONKEY'] ?? 'No API Key', // Access the updated anon key
-  );
+
+  // Check if running in the web platform
+  if (kIsWeb) {
+    // Access the environment variables injected by GitHub Actions
+    String? apiUrl = window.localStorage['APIURL']; // Or use any method for accessing passed env variables
+    String? anonKey = window.localStorage['ANONKEY'];
+
+    if (apiUrl != null && anonKey != null) {
+      // Initialize Supabase or other services with the API and anon key
+      await Supabase.initialize(
+        url: apiUrl,
+        anonKey: anonKey,
+      );
+    } else {
+      print('API URL or Anon Key is not available');
+    }
+  }
 
   runApp(const ProviderScope(child: DevCraftFolio()));
 }

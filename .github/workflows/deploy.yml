@@ -24,25 +24,22 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      # Step 4: Modify pubspec.yaml (for runtime configuration)
-      - name: Modify pubspec.yaml
-        run: |
-          # Comment out the .env file reference
-          sed -i 's|  - .env|#  - .env|' pubspec.yaml
-          # Add more modifications as necessary
+      # Step 4: Set environment variables from GitHub secrets (to inject into the build process)
+      - name: Set up environment variables
+        run: echo "APIURL=${{ secrets.APIURL }}" >> $GITHUB_ENV && echo "ANONKEY=${{ secrets.ANONKEY }}" >> $GITHUB_ENV
 
-
-      # Step 5: Build Flutter web app (release)
-      - name: Build Flutter web (release)
-        run: flutter build web --release --base-href=/craftfolio/
-        env:
-          APIURL: ${{ secrets.APIURL }}  # Pass the secret
-          ANONKEY: ${{ secrets.ANONKEY }}  # Pass the secret
-
-      # Step 6: Update index.html
+      # Step 5: Update index.html (optional if needed)
       - name: Update index.html
         run: |
+          sed -i 's|<base href="/">|<base href="/craftfolio/">|' web/index.html
           sed -i 's|<meta name="apple-mobile-web-app-capable" content="yes">|<meta name="mobile-web-app-capable" content="yes">|' web/index.html
+
+      # Step 6: Build Flutter web (release)
+      - name: Build Flutter web (release)
+        run: flutter build web --release --base-href "/craftfolio/"
+        env:
+          APIURL: ${{ secrets.APIURL }}  # Inject the APIURL secret
+          ANONKEY: ${{ secrets.ANONKEY }}  # Inject the ANONKEY secret
 
       # Step 7: Deploy to GitHub Pages (gh-pages branch)
       - name: Deploy to GitHub Pages
