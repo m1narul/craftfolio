@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'craft_folio.dart';
-import 'dart:html'; // Import the HTML package to access window object
 
 void main() async {
   // Ensure Flutter bindings are initialized before running any async code
@@ -12,8 +11,8 @@ void main() async {
   // Check if running in the web platform
   if (kIsWeb) {
     // Access the environment variables injected by GitHub Actions
-    String? apiUrl = window.localStorage['APIURL']; // Or use any method for accessing passed env variables
-    String? anonKey = window.localStorage['ANONKEY'];
+    String? apiUrl = const String.fromEnvironment('APIURL', defaultValue: 'default_url'); // Or use any method for accessing passed env variables
+    String? anonKey = const String.fromEnvironment('ANONKEY', defaultValue: 'default_anon_key');
 
     if (apiUrl != null && anonKey != null) {
       // Initialize Supabase or other services with the API and anon key

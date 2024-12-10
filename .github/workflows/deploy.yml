@@ -23,6 +23,7 @@ jobs:
       # Step 3: Install dependencies
       - name: Install dependencies
         run: flutter pub get
+
       # Step 4: Modify pubspec.yaml (for runtime configuration)
       - name: Modify pubspec.yaml
         run: |
