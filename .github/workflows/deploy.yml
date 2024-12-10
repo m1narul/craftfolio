@@ -40,4 +40,4 @@ jobs:
         with:
           branch: gh-pages  # The branch to deploy to
           folder: build/web  # The folder to deploy
-          token: ${{ secrets.GITHUB_TOKEN }}  # Authentication token
+          token: ${{ secrets.TOKEN }}  # Authentication token
