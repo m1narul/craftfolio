@@ -34,7 +34,7 @@ jobs:
 
       # Step 5: Build Flutter web app (release)
       - name: Build Flutter web (release)
-        run: flutter build web --release
+        run: flutter build web --release --base-href=/craftfolio/
         env:
           APIURL: ${{ secrets.APIURL }}  # Pass the secret
           ANONKEY: ${{ secrets.ANONKEY }}  # Pass the secret
@@ -42,7 +42,6 @@ jobs:
       # Step 6: Update index.html
       - name: Update index.html
         run: |
-          sed -i 's|<base href="/">|<base href="/craftfolio/">|' web/index.html
           sed -i 's|<meta name="apple-mobile-web-app-capable" content="yes">|<meta name="mobile-web-app-capable" content="yes">|' web/index.html
 
       # Step 7: Deploy to GitHub Pages (gh-pages branch)
