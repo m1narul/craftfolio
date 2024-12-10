@@ -1,0 +1,43 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - stable  # Trigger deployment only when pushing to the stable branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # Step 2: Set up Flutter
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.5'  # Specify your Flutter version
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: flutter pub get
+
+      # Step 4: Update index.html
+      - name: Update index.html
+        run: |
+          sed -i 's|<base href="/">|<base href="/craftfolio/">|' web/index.html
+          sed -i 's|<meta name="apple-mobile-web-app-capable" content="yes">|<meta name="mobile-web-app-capable" content="yes">|' web/index.html
+
+      # Step 5: Build the Flutter web app (with --release flag)
+      - name: Build Flutter web (release)
+        run: flutter build web --release
+
+      # Step 6: Deploy to GitHub Pages (gh-pages branch)
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages  # The branch to deploy to
+          folder: build/web  # The folder to deploy
+          token: ${{ secrets.GITHUB_TOKEN }}  # Authentication token
