@@ -23,25 +23,32 @@ jobs:
       # Step 3: Install dependencies
       - name: Install dependencies
         run: flutter pub get
+      # Step 4: Modify pubspec.yaml (for runtime configuration)
+      - name: Modify pubspec.yaml
+        run: |
+          # Modify any part of pubspec.yaml file during deployment
+          # Example: Disable the assets part that includes .env file
+          sed -i 's|  - .env|#  - .env|' pubspec.yaml
+          # You can add more modifications as per your requirements
 
-      # Step 4: Set environment variables from GitHub secrets (to inject into the build process)
+      # Step 5: Set environment variables from GitHub secrets (to inject into the build process)
       - name: Set up environment variables
         run: echo "APIURL=${{ secrets.APIURL }}" >> $GITHUB_ENV && echo "ANONKEY=${{ secrets.ANONKEY }}" >> $GITHUB_ENV
 
-      # Step 5: Update index.html (optional if needed)
+      # Step 6: Update index.html (optional if needed)
       - name: Update index.html
         run: |
           sed -i 's|<base href="/">|<base href="/craftfolio/">|' web/index.html
           sed -i 's|<meta name="apple-mobile-web-app-capable" content="yes">|<meta name="mobile-web-app-capable" content="yes">|' web/index.html
 
-      # Step 6: Build Flutter web (release)
+      # Step 7: Build Flutter web (release)
       - name: Build Flutter web (release)
         run: flutter build web --release --base-href "/craftfolio/"
         env:
           APIURL: ${{ secrets.APIURL }}  # Inject the APIURL secret
           ANONKEY: ${{ secrets.ANONKEY }}  # Inject the ANONKEY secret
 
-      # Step 7: Deploy to GitHub Pages (gh-pages branch)
+      # Step 8: Deploy to GitHub Pages (gh-pages branch)
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
