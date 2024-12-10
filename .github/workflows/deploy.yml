@@ -33,6 +33,9 @@ jobs:
       # Step 5: Build the Flutter web app (with --release flag)
       - name: Build Flutter web (release)
         run: flutter build web --release
+        env:
+          APIURL: ${{ secrets.APIURL }}  # Pass the secret
+          ANONKEY: ${{ secrets.ANONKEY }}  # Pass the secret
 
       # Step 6: Deploy to GitHub Pages (gh-pages branch)
       - name: Deploy to GitHub Pages
