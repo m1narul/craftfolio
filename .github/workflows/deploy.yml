@@ -24,21 +24,26 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      # Step 4: Update index.html
+      # Step 4: Modify pubspec.yaml (for runtime configuration)
+      - name: Modify pubspec.yaml
+        run: |
+          # Modify any part of pubspec.yaml file during deployment
+          # Example: Disable the assets part that includes .env file
+          sed -i 's|  - .env|#  - .env|' pubspec.yaml
+          # You can add more modifications as per your requirements
+
+      # Step 5: Update index.html
       - name: Update index.html
         run: |
           sed -i 's|<base href="/">|<base href="/craftfolio/">|' web/index.html
           sed -i 's|<meta name="apple-mobile-web-app-capable" content="yes">|<meta name="mobile-web-app-capable" content="yes">|' web/index.html
 
-      # Step 5: Inject secrets as environment variables for runtime
-      - name: Set environment variables for runtime
-        run: |
-          echo "APIURL=${{ secrets.APIURL }}" >> $GITHUB_ENV
-          echo "ANONKEY=${{ secrets.ANONKEY }}" >> $GITHUB_ENV
-
-      # Step 6: Build the Flutter web app (with --release flag)
+      # Step 6: Build Flutter web app (release)
       - name: Build Flutter web (release)
         run: flutter build web --release
+        env:
+          APIURL: ${{ secrets.APIURL }}  # Pass the secret
+          ANONKEY: ${{ secrets.ANONKEY }}  # Pass the secret
 
       # Step 7: Deploy to GitHub Pages (gh-pages branch)
       - name: Deploy to GitHub Pages
