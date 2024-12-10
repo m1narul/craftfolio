@@ -30,14 +30,17 @@ jobs:
           sed -i 's|<base href="/">|<base href="/craftfolio/">|' web/index.html
           sed -i 's|<meta name="apple-mobile-web-app-capable" content="yes">|<meta name="mobile-web-app-capable" content="yes">|' web/index.html
 
-      # Step 5: Build the Flutter web app (with --release flag)
+      # Step 5: Inject secrets as environment variables for runtime
+      - name: Set environment variables for runtime
+        run: |
+          echo "APIURL=${{ secrets.APIURL }}" >> $GITHUB_ENV
+          echo "ANONKEY=${{ secrets.ANONKEY }}" >> $GITHUB_ENV
+
+      # Step 6: Build the Flutter web app (with --release flag)
       - name: Build Flutter web (release)
         run: flutter build web --release
-        env:
-          APIURL: ${{ secrets.APIURL }}  # Pass the secret
-          ANONKEY: ${{ secrets.ANONKEY }}  # Pass the secret
 
-      # Step 6: Deploy to GitHub Pages (gh-pages branch)
+      # Step 7: Deploy to GitHub Pages (gh-pages branch)
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
