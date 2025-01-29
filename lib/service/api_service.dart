@@ -1,3 +1,4 @@
+/*
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../logger/logger.dart';
 
@@ -30,3 +31,4 @@ class ApiService {
     }
   }
 }
+*/

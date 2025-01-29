@@ -7,27 +7,31 @@ class CraftFolio extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final personalInfoAsyncValue = ref.watch(personalInfoProvider);
+
+    final cvAsync = ref.watch(cvProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Dev-Craftfolio')),
-      body: Column(
-        children: [
-          // Personal Information
-          personalInfoAsyncValue.when(
-            data: (personalInfo) {
-              return ListTile(
-                title: Text(personalInfo['name']),
-                subtitle: Text(personalInfo['email']),
-                leading: CircleAvatar(
-                  backgroundImage: NetworkImage(personalInfo['profile_image'] ?? ''),
-                ),
-              );
-            },
-            loading: () => const CircularProgressIndicator(),
-            error: (error, stackTrace) => Text('Error: $error'),
+      appBar: AppBar(title: const Text("Dev-Craftfolio")),
+      body: cvAsync.when(
+        data: (cv) => Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("Name: ${cv.name}", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              SizedBox(height: 10),
+              Text("Summary: ${cv.summary}"),
+              SizedBox(height: 20),
+              Text("Skills:", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              ...cv.skills["technical"]!.map((skill) => Text("- $skill")).toList(),
+              SizedBox(height: 20),
+              Text("Projects:", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              ...cv.projects.map((project) => Text("- ${project.name}: ${project.description}")).toList(),
+            ],
           ),
-        ],
+        ),
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (err, stack) => Center(child: Text("Error: $err")),
       ),
     );
   }

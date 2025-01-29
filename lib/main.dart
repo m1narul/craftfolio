@@ -1,30 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'craft_folio.dart';
 
 void main() async {
   // Ensure Flutter bindings are initialized before running any async code
   WidgetsFlutterBinding.ensureInitialized();
-
-  // Check if running in the web platform
-  if (kIsWeb) {
-    // Access the environment variables injected by GitHub Actions
-    String? apiUrl = const String.fromEnvironment('APIURL', defaultValue: 'default_url'); // Or use any method for accessing passed env variables
-    String? anonKey = const String.fromEnvironment('ANONKEY', defaultValue: 'default_anon_key');
-
-    if (apiUrl != null && anonKey != null) {
-      // Initialize Supabase or other services with the API and anon key
-      await Supabase.initialize(
-        url: apiUrl,
-        anonKey: anonKey,
-      );
-    } else {
-      print('API URL or Anon Key is not available');
-    }
-  }
-
   runApp(const ProviderScope(child: DevCraftFolio()));
 }
 

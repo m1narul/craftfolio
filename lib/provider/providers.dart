@@ -1,9 +1,11 @@
+import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../service/api_service.dart';
+import '../model/info_model.dart';
 
-// Provider for personal information
-final personalInfoProvider = FutureProvider<Map<String, dynamic>>((ref) async {
-  final apiService = ApiService();  // Create ApiService instance
-  return apiService.fetchPersonalInformation();
+// Async Provider to fetch the JSON and convert it into CVModel
+final cvProvider = FutureProvider<InfoModel>((ref) async {
+  final String jsonString = await rootBundle.loadString('config/information.json');
+  final Map<String, dynamic> jsonData = jsonDecode(jsonString);
+  return InfoModel.fromJson(jsonData);
 });
-

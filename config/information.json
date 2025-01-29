@@ -1,0 +1,71 @@
+{
+  "name": "Minarul Ali",
+  "contact": {
+    "phone": "+919434520740",
+    "email": "minarul.ali@outlook.com",
+    "linkedin": "https://www.linkedin.com/in/minarulali",
+    "github": "https://github.com/m1narul"
+  },
+  "summary": "Experienced Mobile Application Developer with 5+ years of expertise in Dart and Flutter, specializing in intuitive and robust mobile solutions. Proficient in Android development, transforming client requirements into functional applications.",
+  "skills": {
+    "technical": [
+      "Dart",
+      "Flutter",
+      "Android Development",
+      "Java",
+      "Kotlin",
+      "RESTful APIs",
+      "Firebase",
+      "SQLite",
+      "Git/GitHub",
+      "Agile/Scrum Methodologies"
+    ],
+    "soft": [
+      "Problem-Solving",
+      "Team Collaboration",
+      "Communication",
+      "Project Management",
+      "Client Interaction"
+    ]
+  },
+  "experience": [
+    {
+      "title": "Mobile Application Engineer",
+      "company": "Techno Exponent, Kolkata",
+      "duration": "08/2021 - 09/2024",
+      "responsibilities": [
+        "Developed apps for beat customization, fuel management, doctor-patient interactions, and ride-sharing.",
+        "Enhanced salon booking and payment processing systems."
+      ]
+    },
+    {
+      "title": "Flutter Developer",
+      "company": "Ivan Infotech, Kolkata",
+      "duration": "07/2020 - 07/2021",
+      "responsibilities": [
+        "Created job matching platform and e-commerce app.",
+        "Built logistics tracking app."
+      ]
+    },
+    {
+      "title": "Android & Flutter Developer",
+      "company": "ColorBracket Technologies, Durgapur",
+      "duration": "12/2018 - 06/2020",
+      "responsibilities": [
+        "Developed healthcare management apps."
+      ]
+    }
+  ],
+  "education": {
+    "degree": "M.C.A.",
+    "university": "KIIT University, Bhubaneswar",
+    "duration": "07/2015 - 05/2017"
+  },
+  "projects": [
+    {
+      "name": "Nuritopia Wallet",
+      "description": "A Bitcoin wallet app available on the Google Play Store.",
+      "link": "https://play.google.com/store/apps/details?id=com.nuritopia.wallet"
+    }
+  ]
+}
